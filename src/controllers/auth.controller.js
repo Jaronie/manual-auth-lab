@@ -17,12 +17,12 @@ const registerPage = (req, res) => {
 const register = async (req, res) => {
     const { username, password, confirm, role } = req.body;
 
-    if (!username || !password || password !== confirm) {
-        return res.redirect("/register?errors=Invalid registration details");
+    if (!username || !password || !confirm){
+        return res.redirect("/register?error=All fields required");
     }
-
-    await createUser(username, password, role);
-    res.redirect("/login");
+    if (password !== confirm){
+        return res.redirect("/register?error=Invalid role")
+    }
 };
 
 const login = async (req, res) => {
