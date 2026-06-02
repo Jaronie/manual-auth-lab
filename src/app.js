@@ -1,8 +1,21 @@
 import express from 'express';
 import defaultRouter from './routers/routes.js';
+import session from "express-session";
+
 
 //configure Express.js app
 const app = express();
+
+//create express app...
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
+
+//add app routes
+
 
 //view engine
 app.set("view engine", "ejs");
