@@ -6,6 +6,8 @@ import session from "express-session";
 //configure Express.js app
 const app = express();
 
+app.use(express.urlencoded({ extended: true}));
+
 //create express app...
 
 app.use(session({
@@ -14,7 +16,17 @@ app.use(session({
     saveUninitialized: true
 }));
 
-//add app routes
+//attach users to every request
+app.use((req, res, next) =>
+{
+    if (req.session.user) {
+        req.user = req.session.user;
+    }
+    else {
+        req.user = null;
+    }
+    next();
+});
 
 
 //view engine
