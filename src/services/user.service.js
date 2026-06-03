@@ -6,6 +6,11 @@ export const hashPassword = async (plainPassword) => {
     return await bcrypt.hash(plainPassword, saltRounds);
 };
 
+// password validation
+export const validatePassword = async (plainPassword, storedHash) => {
+    return await bcrypt.compare(plainPassword, storedHash);
+};
+
 
 export const findUserByUsername = async (username) => {
     const [results] = await db.query(
@@ -24,7 +29,7 @@ export const createUser = async (username, plainPassword, role = "user") => {
     const passwordHash = await hashPassword(plainPassword);
 
     const [result] = await db.execute(
-        "INSERT INTO users (username,password,role) values (?, ?, ?)",
+        "INSERT INTO users (username, password, role) values (?, ?, ?)",
         [username, passwordHash, role]
     );
 
